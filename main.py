@@ -1,8 +1,13 @@
 from random import randint, choice
+import pygame
+from sys import exit
 
 
 class 扫雷:
     def __init__(self, 地雷数=10, 地图大小=5) :
+        self.hand_x = 0
+        self.hand_y = 0
+        self.live = True
         self.tnts = 地雷数
         self.tnt_rest = 0
         self.MapSize = 地图大小
@@ -44,3 +49,43 @@ class 扫雷:
                 self.map_tab[tx][ty] = 1
                 self.dfs(tx, ty)
         return None
+    
+    def win(self):
+        for i4 in range(self.MapSize):
+            for j4 in range(self.MapSize):
+                if self.map_book == 9 and self.map_out == "■" or self.map_out == "+":
+                    print('you win !')
+    
+    def move(self):
+        for events in pygame.event.get():
+            if events.type == pygame.QUIT:
+                exit()
+            elif events.type == pygame.KEYDOWN:
+                if events.key == pygame.K_UP:
+                    if self.hand_y < 1:
+                        pass
+                    else:
+                        self.hand_y -= 1
+                elif events.key == pygame.K_DOWN:
+                    if self.hand_y == self.MapSize:
+                        pass
+                    else:
+                        self.hand_y += 1
+                elif events.key == pygame.K_LEFT:
+                    if self.hand_x < 1:
+                        pass
+                    else:
+                        self.hand_x -= 1
+                elif events.key == pygame.K_RIGHT:
+                    if self.hand_y == self.MapSize :
+                        pass
+                    else:
+                        self.hand_y += 1
+                elif events.key == pygame.K_SPACE:
+                    if self.map_book[self.hand_y][self.hand_x] == 9:
+                        self.live = False
+                    else:
+                        self.dfs(self.hand_x,self.hand_y)
+            self.map_out[self.hand_y][self.hand_x] = '□'
+    def main_game(self):
+        pass
